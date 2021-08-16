@@ -169,7 +169,7 @@ describe('Our first suite', () => {
     });
   });
 
-  it.only('web tables', () => {
+  it('web tables', () => {
 
     cy.visit('/');
     cy.contains('Tables & Data').click();
@@ -209,5 +209,36 @@ describe('Our first suite', () => {
         }
       });
     })
+  });
+
+  it.only('datepickers', () => {
+
+    cy.visit('/');
+    cy.contains('Forms').click();
+    cy.contains('Datepicker').click();
+
+    let date = new Date();
+    date.setDate(date.getDate() + 100);
+    let futureDay = date.getDate();
+    let futureMonth = date.toLocaleString('default', { month: 'short' });
+    let dateAssert = `${futureMonth} ${futureDay}, ${date.getFullYear()}`;
+
+    cy.contains('nb-card', 'Common Datepicker').find('input').then(input => {
+      cy.wrap(input).click();
+
+      selectDayFromCurrent();
+      function selectDayFromCurrent () {
+        cy.get('nb-calendar-navigation').invoke('attr', 'ng-reflect-date').then(dateAttribute => {
+          if (!dateAttribute.includes(futureMonth)) {
+            cy.get('[data-name="chevron-right"]').click();
+            selectDayFromCurrent();
+          } else {
+            cy.get('nb-calendar-day-picker [class="day-cell ng-star-inserted"]').contains(futureDay).click();
+          }
+        });
+      }
+
+      cy.wrap(input).invoke('prop', 'value').should('contain', dateAssert);
+    });
   });
 });

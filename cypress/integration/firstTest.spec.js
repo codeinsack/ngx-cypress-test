@@ -87,7 +87,7 @@ describe('Our first suite', () => {
       .should('contain', 'checked');
   });
 
-  it.only('assert property', () => {
+  it('assert property', () => {
 
     cy.visit('/');
     cy.contains('Forms').click();
@@ -97,6 +97,30 @@ describe('Our first suite', () => {
       cy.wrap(input).click();
       cy.get('nb-calendar-day-picker').contains('17').click();
       cy.wrap(input).invoke('prop', 'value').should('contain', 'Aug 17, 2021');
+    });
+  });
+
+  it.only('radio button', () => {
+
+    cy.visit('/');
+    cy.contains('Forms').click();
+    cy.contains('Form Layouts').click();
+
+    cy.contains('nb-card', 'Using the Grid').find('[type="radio"]').then(radioButtons => {
+      cy.wrap(radioButtons)
+        .first()
+        .check({ force: true })
+        .should('be.checked');
+      cy.wrap(radioButtons)
+        .eq(1)
+        .check({ force: true })
+        .should('be.checked');
+      cy.wrap(radioButtons)
+        .first()
+        .should('not.be.checked');
+      cy.wrap(radioButtons)
+        .eq(2)
+        .should('be.disabled');
     });
   });
 });

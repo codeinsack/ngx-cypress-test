@@ -29,5 +29,7 @@ describe('Our first suite', () => {
       .parents('form')
       .find('nb-checkbox')
       .click();
+
+    cy.contains('nb-card', 'Horizontal form').find('[type="email"]')
   });
 });

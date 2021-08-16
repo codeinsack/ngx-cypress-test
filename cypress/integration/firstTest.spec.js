@@ -100,7 +100,7 @@ describe('Our first suite', () => {
     });
   });
 
-  it.only('radio button', () => {
+  it('radio button', () => {
 
     cy.visit('/');
     cy.contains('Forms').click();
@@ -122,5 +122,17 @@ describe('Our first suite', () => {
         .eq(2)
         .should('be.disabled');
     });
+  });
+
+  it.only('checkboxes', () => {
+
+    cy.visit('/');
+    cy.contains('Modal & Overlays').click();
+    cy.contains('Toastr').click();
+
+    // check all checkboxes
+    // cy.get('[type="checkbox"]').check({ force: true })
+    cy.get('[type="checkbox"]').eq(0).click({ force: true });
+    cy.get('[type="checkbox"]').eq(1).check({ force: true });
   });
 });

@@ -284,23 +284,4 @@ describe('Our first suite', () => {
       cy.wrap(div).should('have.value', 'Some value');
     })
   });
-
-  it('api', () => {
-
-    cy.server();
-    cy.route('POST', '**/articles').as('postArticles');
-
-    cy.contains('New Article').click();
-    cy.get('.title').type('This is a title');
-    cy.get('.description').type('This is a description');
-    cy.get('.article').type('This is a article');
-    cy.contains('Publish Article').click();
-
-    cy.wait('@postArticles');
-    cy.get('@postArticles').then(xhr => {
-      expect(xhr.status).toEqual(200);
-      expect(xhr.request.body.article.body).to.equal('This is a article');
-      expect(xhr.response.body.article.descriotion).to.equal('This is a description');
-    });
-  });
 });

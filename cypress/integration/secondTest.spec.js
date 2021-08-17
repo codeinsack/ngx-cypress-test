@@ -45,4 +45,13 @@ describe('API', () => {
     })
   });
 
+  it('api calls', () => {
+
+    cy.request({ url: '...', method: 'POST', body: {} }).its('body').then(body => {
+      cy.request({}).then(response => {
+        expect(response.status).to.equal(200);
+      });
+    });
+  });
+
 });

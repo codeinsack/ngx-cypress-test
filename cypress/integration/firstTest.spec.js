@@ -272,4 +272,16 @@ describe('Our first suite', () => {
       expect(stub.getCall(0)).to.be.calledWith('Are you sure you want to delete?');
     });
   });
+
+  it('assertions', () => {
+    cy.get('div')
+      .should('have.class', 'label')
+      .and('have.text', 'Email address')
+
+    cy.get('div').then(div => {
+      expect(div).to.have.class('label');
+      expect(div).to.have.text('Email address');
+      cy.wrap(div).should('have.value', 'Some value');
+    })
+  });
 });
